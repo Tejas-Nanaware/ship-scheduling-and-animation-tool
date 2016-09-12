@@ -19,16 +19,49 @@ ul.nav{
   border-color: gray;
 }
 .hrRow{
-  width: 80%;
+  width: 100%;
   border-color: gray;
 }
 .col-md-6{
   text-align: center;
 }
+.submit{
+  margin-top: 75px;
+}
+.control{
+  display: inline-block;
+}
+/*.ui-widget {
+  font-family: Verdana,Arial,sans-serif;
+  font-size: 0.8em !important;
+  color: black !important;
+}
+.ui-widget-content {
+  border: 2px solid #aaaaaa !important;
+}
+.ui-corner-all, .ui-corner-top, .ui-corner-left, .ui-corner-tl {
+  border-top-left-radius: 10px !important;
+  border-top-right-radius: 10px !important;
+  border-bottom-left-radius: 10px !important;
+  border-bottom-right-radius: 10px !important;
+}
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+  background: rgb(63,81,181) 50% 50% repeat-x;
+}
+.mdl-slider.is-upgraded {
+    color: rgb(63,81,181) !important;
+}
+.ui-state-active>.ui-slider>.ui-slider-handle{
+  width: 1.5em !important;
+  height: 1.5em !important;
+}*/
 
 /*Id's*/
 #map {
   height: 100%;
+  margin-top: 40px;
+}
+#slider{
   margin-top: 25px;
 }
 
