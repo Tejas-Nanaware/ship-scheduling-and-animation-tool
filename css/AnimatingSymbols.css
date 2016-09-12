@@ -1,0 +1,43 @@
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+ul.nav{
+  font-size: 20px;
+}
+
+/*Classes*/
+.headingAndDescription{
+  margin-top: 120px;
+  text-align: center;
+}
+.hrStyle{
+  width: 90%;
+  border-color: gray;
+}
+.hrRow{
+  width: 80%;
+  border-color: gray;
+}
+.col-md-6{
+  text-align: center;
+}
+
+/*Id's*/
+#map {
+  height: 100%;
+  margin-top: 25px;
+}
+
+
+footer{
+  background-color: black;
+  padding-top: 50px;
+  padding-bottom: 30px;
+	position:relative;
+	color: white;
+	margin-top: 50px;
+}
