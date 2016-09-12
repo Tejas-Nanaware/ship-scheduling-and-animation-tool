@@ -187,23 +187,34 @@ $id = $_GET['id'];
      </div>
     </div>
    </div>
+<script type="text/javascript">
+	
+	function printfun()
+	{
+		console.log($("#datepickerFrom").datepicker("getDate"));
+		console.log($("#datepickerTo").datepicker("getDate"));	
+	}
 
+</script>
     <!-- 2nd ROW -->
-  <div class="container">
+  <div class="container" id="form">
+  
     <h3>Filters</h3>
     <hr class="hrRow" id="lineHr2"></hr>
     <div class="row" id="row2">
+    <form class="form-signin" method="post" action="newlog.php">
       <div class="col-md-4">
-        <h4>From Date:</h4>
-        <p><a class="btn btn-default" title="Select here" role="button"><input id="datepickerFrom" title="Click here"></input></a></p>
+        <h4 class="form-signin-heading">From Date:</h4>
+        <p><a class="btn btn-default" title="Select here" role="button"><input type="text" class="form-control" id="datepickerFrom" title="Click here"></input></a></p>
       </div>
       <div class="col-md-4">
         <h4>To Date:</h4>
-        <p><a class="btn btn-default" title="Select here" role="button"><input id="datepickerTo" title="Click here"></input></a></p>
+        <p><a class="btn btn-default" title="Select here" role="button"><input type="text" class="form-control" id="datepickerTo" title="Click here"></input></a></p>
       </div>
       <div class="col-md-4 submit">
-        <p><a class="btn btn-default" role="button">Submit</a></p>
+        <p><a class="btn btn-default" role="button" onclick="printfun()">Submit</a></p>
       </div>
+      </form>
         <!--<div class="col-md-4">
           <h4>View:</h4>
           <div class="btn-group">
