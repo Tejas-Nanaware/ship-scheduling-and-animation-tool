@@ -24,6 +24,9 @@ $id = $_GET['id'];
         <link href="css/bootstrap.min.css" rel="stylesheet"></link>
         <link href="css/AnimatingSymbols.css" rel="stylesheet"></link>
         <link rel="stylesheet" href="font-awesome-4.5.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="https://code.getmdl.io/1.2.0/material.indigo-pink.min.css">
+        <script defer src="https://code.getmdl.io/1.2.0/material.min.js"></script>
         <!--<link href="MDB-Free/css/mdb.min.css" rel="stylesheet">-->
         <title>Animating Symbols</title>
 
@@ -190,13 +193,16 @@ $id = $_GET['id'];
     <h3>Filters</h3>
     <hr class="hrRow" id="lineHr2"></hr>
     <div class="row" id="row2">
-      <div class="col-md-6">
+      <div class="col-md-4">
         <h4>From Date:</h4>
         <p><a class="btn btn-default" title="Select here" role="button"><input id="datepickerFrom" title="Click here"></input></a></p>
       </div>
-      <div class="col-md-6">
+      <div class="col-md-4">
         <h4>To Date:</h4>
         <p><a class="btn btn-default" title="Select here" role="button"><input id="datepickerTo" title="Click here"></input></a></p>
+      </div>
+      <div class="col-md-4 submit">
+        <p><a class="btn btn-default" role="button">Submit</a></p>
       </div>
         <!--<div class="col-md-4">
           <h4>View:</h4>
@@ -222,17 +228,31 @@ $id = $_GET['id'];
       <hr class="hrRow" id="lineHr3"></hr>
       <h3>Map with our complete Route System:</h3>
     <!--Play button-->
-      <a class="btn btn-default btn-sm play" alt="Play" title="Play">
+    <div class="control">
+      <a class="btn btn-default btn-sm play control" alt="Play" title="Play">
       <i class="fa fa-play fa-lg" aria-hidden="true"></i></a>
+    </div>
     <!--Pause button-->
-      <a class="btn btn-default btn-sm pause" alt="Pause" title="Pause" style="display:none;">
+    <div class="control">
+      <a class="btn btn-default btn-sm pause control" alt="Pause" title="Pause" style="display:none;">
       <i class="fa fa-pause fa-lg" aria-hidden="true"></i></a>
+    </div>
     <!--Reset and Stop button-->
-      <a class="btn btn-default btn-sm reset" alt="Restart" title="Restart">
+    <div class="control">
+      <a class="btn btn-default btn-sm reset control" alt="Restart" title="Restart">
       <i class="fa fa-repeat fa-lg" aria-hidden="true"></i></a>
-      <div style="border: 1px solid black; background-color: black; padding: 5px;">
+    </div>
+    <!--Fast Forward and Reach End button-->
+    <div class="control">
+      <a class="btn btn-default btn-sm end control" alt="Reach End" title="Reach End">
+      <i class="fa fa-fast-forward fa-lg" aria-hidden="true"></i></a>
+    </div>    
+
+      <div style= "padding: 5px;">
       <div id="slider"></div>
       </div>
+      <!--<div id="slider" class="mdl-slider mdl-js-slider slider control" type="range"
+        min="0" max="100" value="0" tabindex="0"></div>-->
 
 <!--<button type="button" class="play">Play</button>
       <input type="button" value="updateBar()" onclick="updateBar()" />
@@ -256,14 +276,22 @@ $id = $_GET['id'];
     }
     $nrows = mysqli_num_rows($result);
 ?>
-
+<?php
+    $result = mysqli_query($bd,"SELECT * FROM mother_ship WHERE id=".$id);
+    $m_ship = array();
+    while($row = mysqli_fetch_array($result)) {
+        array_push($m_ship, $row);
+    }
+    $m_ship_rows = mysqli_num_rows($result);
+?>
 
     <script>
 
 //Initialization Of Data From DB
     var nrows = <?php echo json_encode($nrows,JSON_NUMERIC_CHECK);?>;
     var locMatrix = <?php echo json_encode($locations,JSON_NUMERIC_CHECK);?>;
-    
+    var m_ship_rows = <?php echo json_encode($m_ship_rows,JSON_NUMERIC_CHECK);?>;
+    var m_ship = <?php echo json_encode($m_ship,JSON_NUMERIC_CHECK);?>;
 
       var line;
       var line1;
@@ -349,6 +377,13 @@ $id = $_GET['id'];
           strokeWeight: 4
         };
 
+        var symbolMotherShip = {
+          path: google.maps.SymbolPath.CIRCLE,
+          strokeColor: '#0000FF',
+          strokeOpacity: 1.0,
+          center: {lat: 8.8674, lng: 90.543}
+        };
+
         // Create the polyline and add the symbol to it via the 'icons' property.
         /*line = new google.maps.Polyline({
           path: [{lat: -33.918861, lng: 18.423300}, {lat: -35.842160, lng: 18.863525}, {lat: -39.170387, lng: 35.189209}, {lat: -26.331494, lng: 54.228516}, {lat: 0.462885, lng: 61.083984}, {lat: 19.075984, lng: 72.877656}],
@@ -431,12 +466,14 @@ $id = $_GET['id'];
         function playing() {
               intervalForAnimation = window.setInterval(function() {
                   $("#map").after(animateCircle(count));
-                  count = (count+1) % 200;
+                  count = (count+0.2) % 200;
               }, 20);
           }
 
           $(".play").click(function() {
               playing();
+              marker.setMap(map);
+              motherShipLayer.setMap(map);
               $(this).hide();
               $(".pause").show();
           });
@@ -450,10 +487,15 @@ $id = $_GET['id'];
 
           $(".reset").click(function(){
               count = 0;
+              motherShipLayer.setMap(map);
             for(var i = 0; i < lineArray1.length; i++){
               line11 = lineArray1[i];
               line11.setMap(map);
             }
+          });
+
+          $(".end").click(function(){
+            count = 200;
           });
 
 
@@ -470,6 +512,7 @@ $id = $_GET['id'];
           if (count >= 199){ 
             clearInterval(intervalForAnimation);
             clearTheLines();
+            motherShipLayer.setMap(null);
           };    
       }
 
@@ -479,10 +522,49 @@ $id = $_GET['id'];
               line11.setMap(null);
             }
         }
+   
 
-    }   
+    // Construct the circle for each value in citymap.
+        // Note: We scale the area of the circle based on the population.
+          // Add the circle for this city to the map.
+          var motherShipLayer = new google.maps.Circle({
+            strokeColor: '#FF0000',
+            strokeOpacity: 0.8,
+            strokeWeight: 2,
+            fillColor: '#FF0000',
+            fillOpacity: 0.35,
+            //map: map,
+            center: {lat: m_ship[0][1], lng: m_ship[0][2]},
+            radius: 500000
+          });
 
-    
+
+
+      
+
+      // Remove custom styles.
+      // map.data.setStyle({});  
+      //....layering part finished....//   
+
+      //....Marker section....//
+        var marker = new google.maps.Marker({
+          position:{lat: m_ship[0][1], lng: m_ship[0][2]},
+          icon: {
+          path: google.maps.SymbolPath.CIRCLE,
+          scale: 5 }
+          });
+
+        var infowindow = new google.maps.InfoWindow({
+          content:"Mother Ship"
+          });
+
+        google.maps.event.addListener(marker, 'click', function() {
+          infowindow.open(map,marker);
+          });
+
+}
+       
+
     </script>
     <!--<script type="text/javascript">
            var pb,map;
@@ -508,7 +590,7 @@ $id = $_GET['id'];
             pb.hide();
           };
     </script>-->
-    <script async defer
+   <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAYJY_vFKIl-VEdyoEd3hZI8Wv1JdNzTmI&callback=initMap"></script>
     <!--<script src="js/jquery.min.js"></script>-->
     <script src="js/bootstrap.min.js"></script>
