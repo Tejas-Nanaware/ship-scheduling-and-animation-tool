@@ -7,6 +7,8 @@ if(!isset($_SESSION['username']))
     }
 require 'connect.php';
 $id = $_GET['id'];
+$s_date = $_GET['s_date'];
+$e_date = $_GET['e_date'];
 ?>
 
 
@@ -36,13 +38,13 @@ $id = $_GET['id'];
           
       <script>
           $(document).ready(function() {
-            $("#datepickerTo").datepicker();
+            $("#datepickerTo").datepicker({ dateFormat: "yy-mm-dd" });
           });
       </script>
 
       <script>
           $(document).ready(function() {
-            $("#datepickerFrom").datepicker();
+            $("#datepickerFrom").datepicker({ dateFormat: "yy-mm-dd" });
           });
       </script>
 
@@ -191,8 +193,14 @@ $id = $_GET['id'];
 	
 	function printfun()
 	{
-		console.log($("#datepickerFrom").datepicker("getDate"));
-		console.log($("#datepickerTo").datepicker("getDate"));	
+		var s_date = $("#datepickerFrom").datepicker({ dateFormat: "yy-mm-dd" }).val();
+		var e_date = $("#datepickerTo").datepicker({ dateFormat: "yy-mm-dd" }).val();	
+		var id = <?php echo json_encode($id,JSON_NUMERIC_CHECK);?>;
+		console.log(s_date);
+		console.log(e_date);
+		console.log(id);
+		window.location.href = "lastpage1.php?id="+id+"&s_date="+s_date+"&e_date="+e_date;
+		//window.location.replace("lastpage1.php?id="+id+"&s_date="+s_date+"&e_date="+e_date);
 	}
 
 </script>
@@ -280,8 +288,10 @@ $id = $_GET['id'];
     </footer>
 
     <?php
-    $result = mysqli_query($bd,"SELECT * FROM ship WHERE id=".$id);
+    $sqlqry = "SELECT * FROM ship WHERE id=" . $id . " AND start_date BETWEEN '" . $s_date . "' AND '" . $e_date . "'";
+    $result = mysqli_query($bd, $sqlqry);
     $locations = array();
+    $counter=0;
     while($row = mysqli_fetch_array($result)) {
         array_push($locations, $row);
     }
@@ -326,9 +336,9 @@ $id = $_GET['id'];
         for(var i=0;i<=nrows-1;i++)
         {
         console.log(DrivePath[i]);
-        DrivePath.push(new google.maps.LatLng(locMatrix[i][0], locMatrix[i][1]),
+        DrivePath.push(new google.maps.LatLng(locMatrix[i][1], locMatrix[i][2]),
                   new google.maps.LatLng(17.8674, 66.543),
-                  new google.maps.LatLng(locMatrix[i][2], locMatrix[i][3]));
+                  new google.maps.LatLng(locMatrix[i][3], locMatrix[i][4]));
       }
         var Colors = [
         "#FF0000", 
