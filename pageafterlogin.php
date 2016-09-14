@@ -53,7 +53,7 @@
   <div class="container_1">
     <h2>Schedule Animation Tool</h2>
   <?php
-    $result = mysqli_query($bd,"SELECT id,model_reference FROM project");
+    $result = mysqli_query($bd,"SELECT id,model_reference,start_date,end_date FROM project");
 
 echo '<table class = "table table-striped">
       <thead>
@@ -67,7 +67,7 @@ echo '<table class = "table table-striped">
 while($row = mysqli_fetch_array($result))
 {
 echo "<tr>";
-echo "<td><a href=lastpage1.php?id=".$row['id'].">" . $row['model_reference'] . "</a></td>";
+echo "<td><a href=lastpage1.php?id=".$row['id']."&s_date=".$row['start_date']."&e_date=".$row['end_date'].">" . $row['model_reference'] . "</a></td>";
 echo "<td>" . $row['id'] . "</td>";
 echo "</tr>";
 }
