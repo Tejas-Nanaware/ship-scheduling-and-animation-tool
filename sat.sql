@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.1
+-- version 4.5.2
 -- http://www.phpmyadmin.net
 --
--- Host: 127.0.0.1
--- Generation Time: Sep 12, 2016 at 12:14 PM
--- Server version: 10.1.16-MariaDB
--- PHP Version: 5.6.24
+-- Host: localhost
+-- Generation Time: Sep 15, 2016 at 09:51 AM
+-- Server version: 10.1.13-MariaDB
+-- PHP Version: 7.0.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -70,18 +70,17 @@ CREATE TABLE `project` (
   `id` int(11) NOT NULL,
   `model_reference` varchar(30) DEFAULT NULL,
   `start_date` date NOT NULL,
-  `end_date` date NOT NULL,
-  `duration` time NOT NULL
+  `end_date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `project`
 --
 
-INSERT INTO `project` (`id`, `model_reference`, `start_date`, `end_date`, `duration`) VALUES
-(1, 'project_1', '2016-08-01', '2016-09-30', '23:00:00'),
-(2, 'project_2', '2016-07-27', '2016-08-23', '21:01:01'),
-(3, 'project_3', '2016-07-01', '2016-08-31', '09:09:09');
+INSERT INTO `project` (`id`, `model_reference`, `start_date`, `end_date`) VALUES
+(1, 'project_1', '2016-08-01', '2016-09-30'),
+(2, 'project_2', '2016-07-27', '2016-08-23'),
+(3, 'project_3', '2016-07-01', '2016-08-31');
 
 -- --------------------------------------------------------
 
