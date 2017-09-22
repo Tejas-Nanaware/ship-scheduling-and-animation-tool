@@ -1,4 +1,4 @@
-# ship-scheduling-and-animation-tool
+# Ship Scheduling And Animation Tool
 
 There are many research project ships that lie in the mid-sea for a long long time!
 So those equipments can be used by other small projects.
